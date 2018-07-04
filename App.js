@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-// import ListItem from './src/components/ListItem'
+import { StyleSheet, View, } from 'react-native';
 import PlacesList from './src/components/PlacesList'
 import PlaceInput from './src/components/PlaceInput'
+import Tshirt from './src/assets/tshirt.png'
+
 
 export default class App extends React.Component {
 
@@ -17,32 +18,31 @@ export default class App extends React.Component {
     })
 
   }
-  onItemDelete = (index) => {
+  onItemDelete = (key) => {
 
-   
-    if(this.state.places[index]){
-      this.state.places.splice(index,1)
-      this.setState({
-          places: this.state.places
-      })
-    }
+
+    this.setState(prevState => {
+      return {places : prevState.places.filter((place) => {
+          return place.key !== key
+      })};
+    });
+    // if(this.state.places[index]){
+    //   this.state.places.splice(index,1)
+    //   this.setState({
+    //       places: this.state.places
+    //   })
+    // }
   }
   onAddPressed = () => {
     if(this.state.placeName.trim() === ""){
       return;
     }
+    let newPlace = {key: Math.random(), value:this.state.placeName, image:Tshirt}
     this.setState({
-      places : this.state.places.concat(this.state.placeName)
+      places : this.state.places.concat(newPlace)
     })
-    // this.setState(prevState => {
-    //   return{
-    //   places : prevState.places.concat(prevState.placeName)
-    //   };
-    // });
-  
   }
   render() {
-    
     return (
       <View style={styles.container}>
        <PlaceInput textValue={this.state.placeName} onPlaceNameChanged={this.onPlaceNameChanged} onAddPressed={ () => this.onAddPressed()}/>
