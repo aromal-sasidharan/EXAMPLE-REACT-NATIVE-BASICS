@@ -21,14 +21,24 @@ export default class App extends React.Component {
     })
 
   }
+  onItemDelete = () => {
+     this.setState(prevState => {
+      return {
+          places : prevState.places.filter((place) => {
+              return place.key !== prevState.selectedPlace.key
+              }),
+          selectedPlace : null
+            }
+    })
+    
+  }
+  onModalClose = () => [
+    this.setState({
+      selectedPlace : null
+    })
+
+  ]
   onItemSelected = (key) => {
-
-
-    // this.setState(prevState => {
-    //   return {places : prevState.places.filter((place) => {
-    //       return place.key !== key
-    //   })};
-    // });
     this.setState( prevState => {
 
       return {
@@ -38,12 +48,6 @@ export default class App extends React.Component {
       }
 
     });
-    // if(this.state.places[index]){
-    //   this.state.places.splice(index,1)
-    //   this.setState({
-    //       places: this.state.places
-    //   })
-    // }
   }
   onAddPressed = () => {
     if(this.state.placeName.trim() === ""){
@@ -58,7 +62,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <PlaceDetail place={this.state.selectedPlace}/>
+        <PlaceDetail place={this.state.selectedPlace} onClose={this.onModalClose} onDeleteItem={this.onItemDelete}/>
         <PlaceInput textValue={this.state.placeName} onPlaceNameChanged={this.onPlaceNameChanged} onAddPressed={ () => this.onAddPressed()}/>
         <PlacesList places={this.state.places} onItemSelected={this.onItemSelected}/>
       </View>

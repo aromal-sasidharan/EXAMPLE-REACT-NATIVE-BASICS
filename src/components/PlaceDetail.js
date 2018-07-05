@@ -1,0 +1,61 @@
+import React from 'react'
+import {Modal,View,Text,Image,StyleSheet,Button} from 'react-native'
+
+
+
+
+const PlaceDetail = (props) => {
+
+    var modelContent = null
+    
+    if(props.place){
+        modelContent = (
+            <View style={styles.detailContainer}>
+                <Image resizeMode="contain" source={{uri:props.place.image}} style={styles.imageDetail}/>
+                <Text style={styles.placeName}>{props.place.name} </Text>
+            </View>
+        )
+    }
+    return(
+            <Modal onRequestClose = {props.onClose} visible = {props.place !== null} animationType="fade">
+                <View style={styles.modalContainer}>
+                    {modelContent}
+                    <View>
+                        <Button title="Delete" color="red" onPress={props.onDeleteItem}/>
+                        <Button title="Close" onPress={props.onClose}/>
+                    </View>
+                </View>
+            </Modal>
+        )
+};
+
+const styles = StyleSheet.create({
+    modalContainer:{
+        margin:25,
+        backgroundColor:"#D4D4D4",
+        justifyContent:"center",
+        // alignItems:"center",
+        flexDirection:"column"
+        
+    },
+    detailContainer:{
+        padding:10,
+        justifyContent:"center",
+        alignItems:"center",
+        flexDirection:"column"
+        
+    },
+    imageDetail:{
+
+        height:200,
+        width:"100%",
+
+    },
+    placeName:{
+        marginTop:10,
+        fontWeight:"bold",
+        fontSize:20
+
+    }
+});
+export default PlaceDetail;
