@@ -24,16 +24,16 @@ const styles = StyleSheet.create({
 
     item:{
         width:"100%",
-        backgroundColor:"#C7566B",
+        backgroundColor:"#2196F3",
         padding : 5,
         marginBottom : 10,
         flexDirection : "row",
-        alignItems:"center"
+        alignItems:"center",
     },
     image:{
         width:30,
         height:30,
-        marginRight:10
+       
     }
 
 });
