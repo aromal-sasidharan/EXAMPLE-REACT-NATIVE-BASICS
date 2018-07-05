@@ -9,6 +9,7 @@ const PlacesList = (props) => {
         )
     }
     return (<FlatList
+        showsVerticalScrollIndicator = {false}
         style={styles.listContainer}
         data={props.places}
         renderItem={renderItem}

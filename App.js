@@ -37,7 +37,8 @@ export default class App extends React.Component {
     if(this.state.placeName.trim() === ""){
       return;
     }
-    let newPlace = {key: Math.random(), value:this.state.placeName, image:Tshirt}
+    let imageUrl = "https://static.photocdn.pt/images/articles/2017/04/28/iStock-614507060.jpg"
+    let newPlace = {key: Math.random(), value:this.state.placeName, image:imageUrl}
     this.setState({
       places : this.state.places.concat(newPlace)
     })
