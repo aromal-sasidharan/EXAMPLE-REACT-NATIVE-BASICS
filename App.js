@@ -1,26 +1,19 @@
 import React from 'react';
 import { StyleSheet, View, } from 'react-native';
 import PlacesList from './src/components/PlacesList'
-import PlaceInput from './src/components/PlaceInput'
 import PlaceDetail from './src/components/PlaceDetail'
-import Tshirt from './src/assets/tshirt.png'
-
+import InputPlace from './src/components/InputPlace'
 
 export default class App extends React.Component {
 
   state = {
-    placeName: "",
+  
     places: [],
     selectedPlace: null
 
   }
 
-  onPlaceNameChanged = (text) => {
-    this.setState({
-      placeName: text
-    })
-
-  }
+ 
   onItemDelete = () => {
      this.setState(prevState => {
       return {
@@ -40,21 +33,16 @@ export default class App extends React.Component {
   ]
   onItemSelected = (key) => {
     this.setState( prevState => {
-
       return {
         selectedPlace : prevState.places.find( (place) => {
           return place.key === key
         })
       }
-
     });
   }
-  onAddPressed = () => {
-    if(this.state.placeName.trim() === ""){
-      return;
-    }
+  onAddPressed = (text) => {
     let imageUrl = "https://orig00.deviantart.net/b6ca/f/2016/191/e/0/john_cena_render_01_by_annyrspngs-da9fzgl.png"
-    let newPlace = {key: Math.random(), name:this.state.placeName, image:imageUrl}
+    let newPlace = {key: Math.random(), name:text, image:imageUrl}
     this.setState({
       places : this.state.places.concat(newPlace)
     })
@@ -63,7 +51,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <PlaceDetail place={this.state.selectedPlace} onClose={this.onModalClose} onDeleteItem={this.onItemDelete}/>
-        <PlaceInput textValue={this.state.placeName} onPlaceNameChanged={this.onPlaceNameChanged} onAddPressed={ () => this.onAddPressed()}/>
+        <InputPlace onAddPressed={(text) => this.onAddPressed(text)} />
         <PlacesList places={this.state.places} onItemSelected={this.onItemSelected}/>
       </View>
     );
