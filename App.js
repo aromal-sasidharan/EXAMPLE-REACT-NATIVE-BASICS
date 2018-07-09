@@ -1,58 +1,20 @@
 import React from 'react';
 import { StyleSheet, View, } from 'react-native';
+import {connect} from 'react-redux';
+
+
 import PlacesList from './src/components/PlacesList'
 import PlaceDetail from './src/components/PlaceDetail'
 import InputPlace from './src/components/InputPlace'
+import {addPlaceAction,deletePlaceAction,selectPlaceAction,deselectPlaceAction} from './src/store/actions/places'
 
-export default class App extends React.Component {
-
-  state = {
-  
-    places: [],
-    selectedPlace: null
-
-  }
-
- 
-  onItemDelete = () => {
-     this.setState(prevState => {
-      return {
-          places : prevState.places.filter((place) => {
-              return place.key !== prevState.selectedPlace.key
-              }),
-          selectedPlace : null
-            }
-    })
-    
-  }
-  onModalClose = () => [
-    this.setState({
-      selectedPlace : null
-    })
-
-  ]
-  onItemSelected = (key) => {
-    this.setState( prevState => {
-      return {
-        selectedPlace : prevState.places.find( (place) => {
-          return place.key === key
-        })
-      }
-    });
-  }
-  onAddPressed = (text) => {
-    let imageUrl = "https://orig00.deviantart.net/b6ca/f/2016/191/e/0/john_cena_render_01_by_annyrspngs-da9fzgl.png"
-    let newPlace = {key: Math.random(), name:text, image:imageUrl}
-    this.setState({
-      places : this.state.places.concat(newPlace)
-    })
-  }
+class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <PlaceDetail place={this.state.selectedPlace} onClose={this.onModalClose} onDeleteItem={this.onItemDelete}/>
-        <InputPlace onAddPressed={(text) => this.onAddPressed(text)} />
-        <PlacesList places={this.state.places} onItemSelected={this.onItemSelected}/>
+        <PlaceDetail place={this.props.selectedPlace} onClose={this.props.onModalClose} onDeleteItem={this.props.onItemDelete}/>
+        <InputPlace onAddPressed={(text) => this.props.onAddPressed(text)} />
+        <PlacesList places={this.props.places} onItemSelected={this.props.onItemSelected}/>
       </View>
     );
   }
@@ -67,3 +29,20 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 });
+
+const mapStatetoProps = (state) => {
+  return { 
+    places : state.places.places,
+    selectedPlace: state.places.selectedPlace
+  };
+};
+const mapActionstoProp = (dispatch) => {
+    return {
+      onItemDelete: () => { dispatch(deletePlaceAction()) },
+      onModalClose: () => { dispatch(deselectPlaceAction())},
+      onItemSelected: (key) => {dispatch(selectPlaceAction(key))},
+      onAddPressed: (placeName) => {dispatch(addPlaceAction(placeName))}
+    }
+}
+
+export default connect(mapStatetoProps,mapActionstoProp)(App);
